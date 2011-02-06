@@ -29,7 +29,7 @@ License=Mozilla
 Description=A Package that supports Hidden Markov Model classification and modelling of sequence and time series data.
 
 # Package URL for obtaining the package archive (required)
-PackageURL=http://doc.gold.ac.uk/~mas02mg/downloads/HMM.zip
+PackageURL=https://github.com/downloads/marcogillies/HMMWeka/HMM.zip
 
 # URL for further information
 URL=http://doc.gold.ac.uk/~mas02mg/
