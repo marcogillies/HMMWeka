@@ -31,6 +31,7 @@ import weka.estimators.MultivariateNormalHMMEstimator;
 public class HMM extends RandomizableClassifier implements OptionHandler, MultiInstanceCapabilitiesHandler {
 
 	
+	
 	protected class ProbabilityTooSmallException extends Exception
 	{
 		/**
