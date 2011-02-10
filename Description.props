@@ -26,7 +26,7 @@ Maintainer=Marco Gillies <m.gillies@gold.ac.uk>
 License=Mozilla
 
 # Description (required)
-Description=A Package that supports Hidden Markov Model classification and modelling of sequence and time series data.
+Description=A Package that supports Hidden Markov Model classification and modelling of sequence and time series data. It is still somewhat experimental, hence the release number < 1.0
 
 # Package URL for obtaining the package archive (required)
 PackageURL=https://github.com/downloads/marcogillies/HMMWeka/HMM.zip
