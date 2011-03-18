@@ -57,6 +57,12 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 	protected boolean m_Numeric = false;
 	protected double m_IterationCutoff = 0.01;
 	protected int m_SeqAttr = -1;
+	
+	public int getSequenceAttribute()
+	{
+		return m_SeqAttr;
+	}
+	
 	protected Random m_rand = null;
 	
 	protected double minScale = 1.0E-200;
