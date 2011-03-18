@@ -17,25 +17,49 @@ public class DiscreteHMMEstimator extends AbstractHMMEstimator implements HMMEst
 	protected Estimator m_outputEstimators[];
 	protected int m_NumOutputs;
 	
+
+
+	protected void setupOutputs()
+	{
+		m_outputEstimators = new Estimator[getNumStates()];
+		for (int s = 0; s < getNumStates(); s++)
+		{
+			m_outputEstimators[s] = new DiscreteEstimator(getNumOutputs(), m_Laplace);
+		}
+	}
+	
 	public int getNumOutputs() {
 		return m_NumOutputs;
 	}
-
 	public void setNumOutputs(int NumOutputs) {
 		this.m_NumOutputs = NumOutputs;
+		setupOutputs();
+	}	
+
+	@Override
+	public void setNumStates(int NumStates) {
+		super.setNumStates(NumStates);
+		setupOutputs();
+	}
+	
+	public DiscreteHMMEstimator() {
+		super();
+		setNumOutputs(6);
 	}
 	
 	public DiscreteHMMEstimator(int numStates, int numOutputs, boolean laplace) {
 		super(numStates, laplace);
 
 		setNumOutputs(numOutputs);
-		
+		/*
 		m_outputEstimators = new Estimator[numStates];
 		for (int s = 0; s < numStates; s++)
 		{
 			m_outputEstimators[s] = new DiscreteEstimator(numOutputs, laplace);
 		}
+		*/
 	}
+	
 	
 
 	public DiscreteHMMEstimator(DiscreteHMMEstimator e) throws Exception {
@@ -43,7 +67,7 @@ public class DiscreteHMMEstimator extends AbstractHMMEstimator implements HMMEst
 
 		setNumOutputs(e.getNumOutputs());
 		
-		m_outputEstimators = new Estimator[getNumStates()];
+		//m_outputEstimators = new Estimator[getNumStates()];
 		for (int s = 0; s < getNumStates(); s++)
 		{
 			m_outputEstimators[s] = Estimator.makeCopy(e.m_outputEstimators[s]);

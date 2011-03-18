@@ -20,4 +20,21 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>classes</name>
+			<type>2</type>
+			<location>/Users/mas02mg/Documents/code/HMMWeka/build/classes</location>
+		</link>
+		<link>
+			<name>java</name>
+			<type>2</type>
+			<location>/Users/mas02mg/Documents/code/HMMWeka/src/main/java</location>
+		</link>
+		<link>
+			<name>testcases</name>
+			<type>2</type>
+			<location>/Users/mas02mg/Documents/code/HMMWeka/build/testcases</location>
+		</link>
+	</linkedResources>
 </projectDescription>

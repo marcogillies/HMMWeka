@@ -7,8 +7,11 @@ import java.util.Vector;
 import java.lang.Math;
 import java.util.Random;
 
+import weka.classifiers.*;
 import weka.classifiers.RandomizableClassifier;
 import weka.clusterers.SimpleKMeans;
+import weka.core.*;
+/*
 import weka.core.Attribute;
 import weka.core.Capabilities;
 import weka.core.DenseInstance;
@@ -19,16 +22,18 @@ import weka.core.OptionHandler;
 import weka.core.SelectedTag;
 import weka.core.Tag;
 import weka.core.Utils;
+*/
 import weka.core.Capabilities.Capability;
+
 import weka.core.matrix.DoubleVector;
 import weka.core.matrix.Matrix;
-import weka.core.MultiInstanceCapabilitiesHandler;
+//import weka.core.MultiInstanceCapabilitiesHandler;
 import weka.estimators.DiscreteHMMEstimator;
 import weka.estimators.HMMEstimator;
 import weka.estimators.MultivariateNormalEstimator;
 import weka.estimators.MultivariateNormalHMMEstimator;
 
-public class HMM extends RandomizableClassifier implements OptionHandler, MultiInstanceCapabilitiesHandler {
+public class HMM extends weka.classifiers.RandomizableClassifier implements weka.core.OptionHandler, weka.core.MultiInstanceCapabilitiesHandler {
 
 	
 	
@@ -120,7 +125,7 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 		return m_Numeric;
 	}
 
-	public void setNumeric(boolean Numeric) {
+	protected void setNumeric(boolean Numeric) {
 		m_Numeric = Numeric;
 		if (m_Numeric)
 			setIterationCutoff(0.0001);
@@ -138,6 +143,13 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 
 	protected HMMEstimator estimators[];
 	
+	public int getNumClasses()
+	{
+		if(estimators == null)
+			return 0; 
+		else
+			return estimators.length;
+	}
 	
 	public int getNumStates() {
 		return m_NumStates;
@@ -152,7 +164,7 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 		return m_NumOutputs;
 	}
 	
-	public void setNumOutputs(int numOutputs)
+	protected void setNumOutputs(int numOutputs)
 	{
 		m_NumOutputs = numOutputs;
 	}
@@ -311,8 +323,16 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 		return likelihoodFromScales(scales);
 	}
 	
+	public double [][] probabilitiesForInstance(int classId, weka.core.Instance instance) throws Exception 
+	{
+		Instances sequence = instance.relationalValue(m_SeqAttr);
+		double alpha[][] = new double[sequence.numInstances()][m_NumStates];
+		double beta[][] = new double[sequence.numInstances()][m_NumStates];
+		double scales [] = forwardBackward(estimators[classId], sequence, alpha, beta);
+		return alpha;
+	}
 	
-	public double[] distributionForInstance(Instance instance) throws Exception {
+	public double[] distributionForInstance(weka.core.Instance instance) throws Exception {
 		
 		if(estimators == null)
 		{
@@ -1067,13 +1087,20 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 		
 	}
 	
-	public void buildClassifier(Instances data) throws Exception {
+	public void buildClassifier(weka.core.Instances data) throws Exception {
 		
 		System.out.println("starting build classifier");
 		// check that we have class data and that it is in the right form
-		if (data.classIndex() < 0 || !data.classAttribute().isNominal())
+		if (data.classIndex() < 0)
+		{
+			System.err.println("could not find class index");
 			return;
-		
+		}
+		if (!data.classAttribute().isNominal())
+		{
+			System.err.println("class attribute is not nominal");
+			return;
+		}
 		//System.out.println(data);
 
 		
@@ -1111,9 +1138,18 @@ public class HMM extends RandomizableClassifier implements OptionHandler, MultiI
 		for(int i = 0; i < estimators.length; i++)
 			System.out.println(i + " " + estimators[i]);
 		
-		if (m_SeqAttr < 0 || data.numInstances() == 0)
+		if (m_SeqAttr < 0)
+		{
+			System.err.println("Could not find a relational attribute corresponding to the sequence");
 			return;
+		}
 		
+		if (data.numInstances() == 0)
+		{
+			System.err.println("No instances found");
+			return;
+		}
+			
 		double prevlik = -10000000.0;
 		for (int step = 0; step < 100; step++)
 		{

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/weka"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="src" output="classes" path="java"/>
+	<classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+	<classpathentry kind="con" path="/Users/mas02mg/Documents/code/HMMWeka/build/classes"/>
+	<classpathentry kind="con" path="/Users/mas02mg/Documents/code/HMMWeka/build/testcases"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/plugins/org.eclipse.equinox.launcher_1.1.0.v20100507.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

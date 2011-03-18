@@ -1,26 +1,30 @@
 package weka.estimators;
 
-public class AbstractHMMEstimator {
+import java.io.Serializable;
 
+public class AbstractHMMEstimator implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4206735703010212439L;
+	
+	
 	protected Estimator m_state0Estimator;
 	protected Estimator m_stateEstimators[];
 	protected int m_NumStates;
 	protected boolean m_Laplace;
 
+	public AbstractHMMEstimator(){
+		this(6, false);
+	}
+	
 	public AbstractHMMEstimator(int numStates, boolean laplace) {
 		super();
 		
 		m_Laplace = laplace;
 		setNumStates(numStates);
 		
-		m_state0Estimator = new DiscreteEstimator(numStates, laplace);
-		//m_stateEstimators = new DDConditionalEstimator(numStates, numStates, laplace);
-		//m_outputEstimators = new DDConditionalEstimator(numOutputs, numStates, laplace);
-		m_stateEstimators = new Estimator[numStates];
-		for (int s = 0; s < numStates; s++)
-		{
-			m_stateEstimators[s] = new DiscreteEstimator(numStates, laplace);
-		}
 	}
 	
 	public AbstractHMMEstimator(AbstractHMMEstimator a) throws Exception
@@ -32,7 +36,7 @@ public class AbstractHMMEstimator {
 		//m_state0Estimator = new DiscreteEstimator(a.getNumStates(), a.m_Laplace);
 		//m_stateEstimators = new DDConditionalEstimator(numStates, numStates, laplace);
 		//m_outputEstimators = new DDConditionalEstimator(numOutputs, numStates, laplace);
-		m_stateEstimators = new Estimator[a.getNumStates()];
+		//m_stateEstimators = new Estimator[a.getNumStates()];
 		for (int s = 0; s < a.getNumStates(); s++)
 		{
 			m_stateEstimators[s] = Estimator.makeCopy(a.m_stateEstimators[s]);
@@ -46,8 +50,15 @@ public class AbstractHMMEstimator {
 
 	public void setNumStates(int NumStates) {
 		this.m_NumStates = NumStates;
+		
+		m_state0Estimator = new DiscreteEstimator(getNumStates(), m_Laplace);
+		m_stateEstimators = new Estimator[getNumStates()];
+		for (int s = 0; s < getNumStates(); s++)
+		{
+			m_stateEstimators[s] = new DiscreteEstimator(getNumStates(), m_Laplace);
+		}
 	}
-
+	
 	public int getNumOutputs() {
 		return -1;
 	}

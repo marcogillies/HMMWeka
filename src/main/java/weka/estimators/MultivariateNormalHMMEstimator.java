@@ -12,6 +12,10 @@ import weka.core.matrix.Matrix;
 public class MultivariateNormalHMMEstimator extends AbstractHMMEstimator
 		implements HMMEstimator, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1123497102759147327L;
 	protected boolean m_Tied = true;
 
 	public boolean isTied() {
@@ -46,6 +50,11 @@ public class MultivariateNormalHMMEstimator extends AbstractHMMEstimator
 	}
 
 	protected MultivariateNormalEstimator m_outputEstimators[];
+
+
+	public MultivariateNormalHMMEstimator() {
+		super();
+	}
 	
 	public MultivariateNormalHMMEstimator(int numStates, boolean laplace) {
 		super(numStates, laplace);
@@ -74,6 +83,17 @@ public class MultivariateNormalHMMEstimator extends AbstractHMMEstimator
 		m_outputEstimators = new MultivariateNormalEstimator[a.getNumStates()];
 		for (int i = 0; i < m_outputEstimators.length; i++)
 			m_outputEstimators[i] = new MultivariateNormalEstimator(a.m_outputEstimators[i]);
+	}
+	
+	@Override
+	public void setNumStates(int NumStates) {
+		super.setNumStates(NumStates);
+		m_outputEstimators = new MultivariateNormalEstimator[m_NumStates];
+		for (int s = 0; s < m_NumStates; s++)
+		{
+			m_outputEstimators[s] = new MultivariateNormalEstimator();
+			m_outputEstimators[s].setCovarianceType(getCovarianceType());
+		}
 	}
 	
 	public void setState0Probabilities(double probs[])

@@ -213,14 +213,7 @@ public class MultivariateNormalEstimator implements Serializable {
 	
 	
 	
-	/**
-	   * Add a new time step value to the current estimator.
-	   *
-	   * @param prev_state the previous HMM state 
-	   * @param state the current HMM state
-	   * @param output the HMM output  
-	   * @param weight the weight assigned to the data value 
-	   */
+	
 	  public void addValue(DoubleVector data, double weight)
 	  {
 		  if (weight == 0) {
@@ -244,14 +237,7 @@ public class MultivariateNormalEstimator implements Serializable {
 	  
 
 
-	  /**
-	   * Get a probability for a time step value
-	   *
-	   * @param prev_state the previous HMM state 
-	   * @param state the current HMM state
-	   * @param output the HMM output  
-	 * @throws Exception 
-	   */
+	
 	  public double getProbability(DoubleVector data) throws Exception
 	  {
 		  if(m_Dirty)
