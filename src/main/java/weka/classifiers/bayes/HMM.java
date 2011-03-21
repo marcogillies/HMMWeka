@@ -326,9 +326,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		double lik = 0.0f;
 		for (int i = 0; i < scales.length; i++)
 			if(Math.abs((scales[i])) > 1.0E-32)
-			{
 				lik += Math.log(scales[i]);
-			}
 			else
 				lik += Math.log(1.0E-32);
 		return lik;
@@ -484,8 +482,32 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		Instances sequence = instance.relationalValue(m_SeqAttr);
 		double alpha[][] = new double[sequence.numInstances()][m_NumStates];
 		double beta[][] = new double[sequence.numInstances()][m_NumStates];
+		double gamma[][] = new double[sequence.numInstances()][m_NumStates];
 		double scales [] = forwardBackward(estimators[classId], sequence, alpha, beta);
-		return alpha;
+		double scale = Math.exp(likelihoodFromScales(scales));
+		for (int i = 0; i < gamma.length; i++)
+		{
+			System.out.print("gamma {");
+			for (int j = 0; j < gamma[i].length; j++)
+			{
+				gamma[i][j] = alpha[i][j]*beta[i][j];///scale;
+				System.out.print(gamma[i][j] + " ");
+			}
+			System.out.println("}");
+			System.out.print("alpha {");
+			for (int j = 0; j < alpha[i].length; j++)
+			{
+				System.out.print(alpha[i][j] + " ");
+			}
+			System.out.println("}");
+			System.out.print("beta {");
+			for (int j = 0; j < alpha[i].length; j++)
+			{
+				System.out.print(beta[i][j] + " ");
+			}
+			System.out.println("}");
+		}
+		return gamma;
 	}
 	
 	/**
