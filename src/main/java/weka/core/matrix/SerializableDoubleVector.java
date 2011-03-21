@@ -2,6 +2,9 @@ package weka.core.matrix;
 
 import java.io.Serializable;
 
+/**
+ * This class simply adds the Serializable interface to Weka's DoubleVector class
+ */
 public class SerializableDoubleVector extends DoubleVector implements
 		Serializable {
 

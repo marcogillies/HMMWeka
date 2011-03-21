@@ -32,7 +32,9 @@ import weka.estimators.DiscreteHMMEstimator;
 import weka.estimators.HMMEstimator;
 import weka.estimators.MultivariateNormalEstimator;
 import weka.estimators.MultivariateNormalHMMEstimator;
-
+/*
+ * A hidden Markov Model classifier class.
+ */
 public class HMM extends weka.classifiers.RandomizableClassifier implements weka.core.OptionHandler, weka.core.MultiInstanceCapabilitiesHandler {
 
 	
@@ -58,6 +60,9 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 	protected double m_IterationCutoff = 0.01;
 	protected int m_SeqAttr = -1;
 	
+	/*
+	 * gets the index of the data attribute containing the sequence data
+	 */
 	public int getSequenceAttribute()
 	{
 		return m_SeqAttr;
@@ -69,10 +74,22 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 
 	protected boolean m_RandomStateInitializers = false;
 	
+	/**
+	 * gets whether the HMM state probabilities are randomly initialized.
+	 * If this is false (default) the states are set using clustering on the 
+	 * dataset. 
+	 */
 	public boolean isRandomStateInitializers() {
 		return m_RandomStateInitializers;
 	}
 
+	/**
+	 * sets whether the HMM state probabilities are randomly initialized.
+	 * If this is false (default) the states are set using clustering on the 
+	 * dataset. 
+	 * 
+	 * @param randomStateInitializers if true the HMM state probabilities will be initialized randomly, if false they will be initialized using clustering
+	 */
 	public void setRandomStateInitializers(boolean randomStateInitializers) {
 		this.m_RandomStateInitializers = randomStateInitializers;
 	}
@@ -80,16 +97,39 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 
 	protected boolean m_Tied = false;
 
+	/**
+	 * gets whether the covariance matrices of guassian HMMs are tied. 
+	 * Tied covariances are the same for all states of the HMM. 
+	 * Using tied covariances makes it possible to learn models from less
+	 * data but restricts the class of models that can be learned.
+	 */
 	public boolean isTied() {
 		return m_Tied;
 	}
 
+	/**
+	 * sets whether the covariance matrices of guassian HMMs are tied. 
+	 * Tied covariances are the same for all states of the HMM. 
+	 * Using tied covariances makes it possible to learn models from less
+	 * data but restricts the class of models that can be learned.
+	 * 
+	 * @param tied if true the covariances will be tied
+	 */
 	public void setTied(boolean tied) {
 		m_Tied = tied;
 	}
 	
 	
-	/** The covariance type of any gaussian outputs */
+	/**
+	 * the type of covariance matrices for gaussian HMMs.
+	 * A FULL matrix allows arbitrary dependencies between variables, 
+	 * a DIAGONAL matrix assumes that all variables are independent. 
+	 * SPHERICAL models assume that variables are independent and all have 
+	 * the same variance. SPHERICAL covariances imply a more restricted 
+	 * set of models than DIAGONAL covariances which are more restricted 
+	 * than FULL matrices. Restricted models require less data to learn
+	 * but may not be able to model all features of the data. 
+	 */
 	public static final Tag [] TAGS_COVARIANCE_TYPE = {
 	    new Tag(MultivariateNormalEstimator.COVARIANCE_FULL, "Full matrix (unconstrianed)"),
 	    new Tag(MultivariateNormalEstimator.COVARIANCE_DIAGONAL, "Diagonal matrix (no correlation between data attributes)"),
@@ -98,11 +138,34 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 	
 	protected int m_CovarianceType = MultivariateNormalEstimator.COVARIANCE_FULL;
 	
+	/**
+	 * get the type of covariance matrices for gaussian HMMs.
+	 * A FULL matrix allows arbitrary dependencies between variables, 
+	 * a DIAGONAL matrix assumes that all variables are independent. 
+	 * SPHERICAL models assume that variables are independent and all have 
+	 * the same variance. SPHERICAL covariances imply a more restricted 
+	 * set of models than DIAGONAL covariances which are more restricted 
+	 * than FULL matrices. Restricted models require less data to learn
+	 * but may not be able to model all features of the data. 
+	 * 
+	 */
 	public SelectedTag getCovarianceType() {
 		return new SelectedTag(m_CovarianceType, TAGS_COVARIANCE_TYPE);
 	}
 
 
+	/**
+	 * set the type of covariance matrices for gaussian HMMs.
+	 * A FULL matrix allows arbitrary dependencies between variables, 
+	 * a DIAGONAL matrix assumes that all variables are independent. 
+	 * SPHERICAL models assume that variables are independent and all have 
+	 * the same variance. SPHERICAL covariances imply a more restricted 
+	 * set of models than DIAGONAL covariances which are more restricted 
+	 * than FULL matrices. Restricted models require less data to learn
+	 * but may not be able to model all features of the data. 
+	 * 
+	 * @param covarianceType the covariance type (possibilities are COVARIANCE_FULL, COVARIANCE_DIAGONAL, COVARIANCE_SPHERICAL)
+	 */
 	public void setCovarianceType(SelectedTag covarianceType) {
 		if (covarianceType.getTags() == TAGS_COVARIANCE_TYPE) {
 			m_CovarianceType = covarianceType.getSelectedTag().getID();
@@ -111,22 +174,46 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 
 	protected boolean m_LeftRight = false;
 	
+	/**
+	 * gets whether the HMM has a Left-Right state structure
+	 * In a <em>left-right</em> HMM the sequences of states are always
+	 * passed through in a fixed order (possibly missing 
+	 * some states). The alternative is an <em>ergodic model</em> (default) in which
+	 * arbitrary transitions can be made. 
+	 */
 	public boolean isLeftRight() {
 		return m_LeftRight;
 	}
 
+	/**
+	 * sets whether the HMM has a Left-Right state structure
+	 * In a <em>left-right</em> HMM the sequences of states are always
+	 * passed through in a fixed order (possibly missing 
+	 * some states). The alternative is an <em>ergodic model</em> (default) in which
+	 * arbitrary transitions can be made. 
+	 * 
+	 * @param leftRight if true the HMM will be left-right, if false it will be ergodic
+	 */
 	public void setLeftRight(boolean leftRight) {
 		this.m_LeftRight = leftRight;
 	}
 
+	/*
+	 * gets the dimensionality of the HMM outputs (observations)
+	 */
 	public int getOutputDimension() {
 		return m_OutputDimension;
 	}
 
-	public void setOutputDimension(int OutputDimension) {
+	protected void setOutputDimension(int OutputDimension) {
 		m_OutputDimension = OutputDimension;
 	}
 
+	/*
+	 * gets whether the outputs are numeric
+	 * 
+	 * @return true if numeric, false if nominal
+	 */
 	public boolean isNumeric() {
 		return m_Numeric;
 	}
@@ -139,16 +226,34 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			setIterationCutoff(0.01);
 	}
 
+	/*
+	 * gets the cut off value of terminating the EM iteration.
+	 * The EM iteration will stop when the relative change in likelihood 
+	 * between two subsequent iterations falls below this cutoff
+	 * 
+	 * @return the cutoff value
+	 */
 	public double getIterationCutoff() {
 		return m_IterationCutoff;
 	}
 
+	/*
+	 * sets the cut off value of terminating the EM iteration.
+	 * The EM iteration will stop when the relative change in likelihood 
+	 * between two subsequent iterations falls below this cutoff
+	 * 
+	 * @param iterationCutoff the cutoff value
+	 */
 	public void setIterationCutoff(double iterationCutoff) {
 		m_IterationCutoff = iterationCutoff;
 	}
 
 	protected HMMEstimator estimators[];
-	
+
+	/**
+	 * gets the number of classes for the HMM classifier. 
+	 * The value is set automatically from the data
+	 */
 	public int getNumClasses()
 	{
 		if(estimators == null)
@@ -157,14 +262,28 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			return estimators.length;
 	}
 	
+	/**
+	 * gets the number of hidden states in the HMM
+	 */
 	public int getNumStates() {
 		return m_NumStates;
 	}
 
-	public void setNumStates(int NumStates) {
-		m_NumStates = NumStates;
+	/**
+	 * sets the number of hidden states in the HMM.
+	 * The number of states is the major parameter of an HMM and must be set 
+	 * (it is not learnt from the data).
+	 * 
+	 * @param numStates the number of states to be used
+	 */
+	public void setNumStates(int numStates) {
+		m_NumStates = numStates;
 	}
 	
+	/**
+	 * gets the number distinct output (observation) values for nominal data
+	 * This is set automatically from data.
+	 */
 	public int getNumOutputs()
 	{
 		return m_NumOutputs;
@@ -175,11 +294,28 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		m_NumOutputs = numOutputs;
 	}
 
+	/**
+	 * sets a step 0 state/output probability
+	 * 
+	 * @param classId the class for which we are setting the probability
+	 * @param state the current state
+	 * @param output the output value
+	 * @param prob the probability value to set it to
+	 */
 	public void setProbability0(int classId, double state, DoubleVector output,
 			double prob) {
 		estimators[classId].addValue0(state, output, prob);
 	}
 
+	/**
+	 * sets a state/output probability
+	 * 
+	 * @param classId the class for which we are setting the probability
+	 * @param prevState the previous state
+	 * @param state the current state
+	 * @param output the output value
+	 * @param prob the probability value to set it to
+	 */
 	public void setProbability(int classId, double prevState, double state, DoubleVector output,
 			double prob) {
 		estimators[classId].addValue(prevState, state, output, prob);
@@ -260,6 +396,13 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return scales;
 	}
 	
+	/**
+	 * evaluate the forward algorithm (calculating likelihood) on a particular sequence
+	 * 
+	 * @param hmm the hmm estimator to use when evaluating
+	 * @param sequence the sequence to evaluate
+	 * @return the likelihood of the sequence
+	 */
 	protected double forward(HMMEstimator hmm, Instances sequence) throws Exception
 	{
 		double alpha[][] = new double[sequence.numInstances()][m_NumStates];
@@ -329,6 +472,13 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return likelihoodFromScales(scales);
 	}
 	
+	/**
+	 * evaluate the state occupancy probabilities for a particular sequence
+	 * 
+	 * @param classId the class for which to do the evaluation
+	 * @param instance the data instance (sequence) to evaluate 
+	 * @return a two dimensional array of probabilities (doubles). Item [i][j] gives the probability of being in state j for the ith item in the sequence.
+	 */
 	public double [][] probabilitiesForInstance(int classId, weka.core.Instance instance) throws Exception 
 	{
 		Instances sequence = instance.relationalValue(m_SeqAttr);
@@ -338,6 +488,12 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return alpha;
 	}
 	
+	/**
+	 * get the probabilities from a particular sequence
+	 * 
+	 * @param instance the data instance (sequence)
+	 * @return an array of probabilities (doubles). The nth value is the probability that the sequence is of the nth class.
+	 */
 	public double[] distributionForInstance(weka.core.Instance instance) throws Exception {
 		
 		if(estimators == null)
@@ -714,6 +870,12 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return lik/data.numInstances();
 	}
 	
+	/*
+	 * Initialise the hmm estimators prior to learning
+	 * 
+	 * @param numClasses the number of classes (i.e. the number of estimators)
+	 * @param data the dataset that will be used for initialization
+	 */
 	public void initEstimators(int numClasses, Instances data) throws Exception
 	{
 		if(isNumeric())
@@ -722,7 +884,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			initEstimatorsUnivariateDiscrete(numClasses, null, null, null);
 	}
 	
-	public double[][] initState0ProbsUniform(int numClasses)
+	protected double[][] initState0ProbsUniform(int numClasses)
 	{
 		double [][] state0Probs = new double[numClasses][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -733,7 +895,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return state0Probs;
 	}
 	
-	public double[][] initState0ProbsRandom(int numClasses, Random rand)
+	protected double[][] initState0ProbsRandom(int numClasses, Random rand)
 	{
 		double [][] state0Probs = new double[numClasses][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -744,7 +906,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return state0Probs;
 	}
 	
-	public double[][] initState0ProbsLeftRight(int numClasses)
+	protected double[][] initState0ProbsLeftRight(int numClasses)
 	{
 		double [][] state0Probs = new double[numClasses][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -758,7 +920,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return state0Probs;
 	}
 	
-	public double[][][] initStateProbsUniform(int numClasses)
+	protected double[][][] initStateProbsUniform(int numClasses)
 	{
 		double [][][] stateProbs = new double[numClasses][getNumStates()][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -773,7 +935,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return stateProbs;
 	}
 	
-	public double[][][] initStateProbsRandom(int numClasses, Random rand)
+	protected double[][][] initStateProbsRandom(int numClasses, Random rand)
 	{
 		double [][][] stateProbs = new double[numClasses][getNumStates()][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -785,7 +947,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return stateProbs;
 	}
 	
-	public double[][][] initStateProbsLeftRight(int numClasses)
+	protected double[][][] initStateProbsLeftRight(int numClasses)
 	{
 		double [][][] stateProbs = new double[numClasses][getNumStates()][getNumStates()];
 		for (int i = 0; i < numClasses; i++)
@@ -808,7 +970,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return stateProbs;
 	}
 	
-	public double[][][] initDiscreteOutputProbsRandom(int numClasses, Random rand)
+	protected double[][][] initDiscreteOutputProbsRandom(int numClasses, Random rand)
 	{
 		double [][][] outputProbs = new double[numClasses][getNumStates()][getNumOutputs()];
 		for (int i = 0; i < numClasses; i++)
@@ -820,7 +982,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return outputProbs;
 	}
 	
-	public void initGaussianOutputProbsRandom(int numClasses, DoubleVector outputMeans[][], Matrix outputVars[][])
+	protected void initGaussianOutputProbsRandom(int numClasses, DoubleVector outputMeans[][], Matrix outputVars[][])
 	{
 		if (outputMeans == null)
 		{
@@ -852,7 +1014,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		}
 	}
 	
-	public void initGaussianOutputProbsAllData(int numClasses, Instances data, DoubleVector outputMeans[][], Matrix outputVars[][]) throws Exception
+	protected void initGaussianOutputProbsAllData(int numClasses, Instances data, DoubleVector outputMeans[][], Matrix outputVars[][]) throws Exception
 	{
 		MultivariateNormalEstimator [] ests = new MultivariateNormalEstimator[numClasses];
 		for (int i = 0; i < numClasses; i++)
@@ -900,7 +1062,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		}
 	}
 	
-	public void initGaussianOutputProbsCluster(int numClasses, Instances data, DoubleVector outputMeans[][], Matrix outputVars[][]) throws Exception
+	protected void initGaussianOutputProbsCluster(int numClasses, Instances data, DoubleVector outputMeans[][], Matrix outputVars[][]) throws Exception
 	{
 		
 			
@@ -984,7 +1146,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		}
 	}
 	
-	public void initEstimatorsUnivariateDiscrete(int numClasses, double state0Probs[][], double stateProbs[][][], double outputProbs[][][]) throws Exception
+	protected void initEstimatorsUnivariateDiscrete(int numClasses, double state0Probs[][], double stateProbs[][][], double outputProbs[][][]) throws Exception
 	{
 		estimators = new HMMEstimator[numClasses];
 		
@@ -1043,7 +1205,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		*/
 	}
 	
-	public void initEstimatorsMultivariateNormal(int numClasses, double state0Probs[][], double stateProbs[][][], DoubleVector outputMeans[][], Matrix outputVars[][], Instances data) throws Exception
+	protected void initEstimatorsMultivariateNormal(int numClasses, double state0Probs[][], double stateProbs[][][], DoubleVector outputMeans[][], Matrix outputVars[][], Instances data) throws Exception
 	{
 		estimators = new HMMEstimator[numClasses];
 		
@@ -1093,6 +1255,11 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		
 	}
 	
+	/*
+	 * train an HMM classifier from data
+	 * 
+	 * @param data the data set to use in training
+	 */
 	public void buildClassifier(weka.core.Instances data) throws Exception {
 		
 		System.out.println("starting build classifier");
@@ -1170,6 +1337,13 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			System.out.println(i + " " + estimators[i]);
 	}
 	
+	/*
+	 * sample sequences from the Hidden Markov Model
+	 * 
+	 * @param numseqs the number of sequences to sample
+	 * @param the length of those sequences
+	 * @return an Instances object containing the sequences
+	 */
 	public Instances sample(int numseqs, int length)
 	{
 		if(m_rand == null)
@@ -1177,6 +1351,14 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		return sample(numseqs, length, m_rand);
 	}
 	
+	/*
+	 * sample sequences from the Hidden Markov Model using a specific random number generator
+	 * 
+	 * @param numseqs the number of sequences to sample
+	 * @param the length of those sequences
+	 * @param generator the random number generator to use
+	 * @return an Instances object containing the sequences
+	 */
 	public Instances sample(int numseqs, int length, Random generator)
 	{
 		ArrayList<Attribute> attrs = new ArrayList<Attribute>();
