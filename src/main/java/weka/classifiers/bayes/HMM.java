@@ -417,8 +417,8 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		for (int s = 0; s < getNumStates(); s++)
 		{
 			beta[sequence.numInstances()-1][s] = 1.0f;
-			if(Math.abs(scales[sequence.numInstances()-1]) > minScale)
-				beta[sequence.numInstances()-1][s] /= scales[sequence.numInstances()-1];
+			//if(Math.abs(scales[sequence.numInstances()-1]) > minScale)
+			//	beta[sequence.numInstances()-1][s] /= scales[sequence.numInstances()-1];
 			if (Double.isInfinite(beta[sequence.numInstances()-1][s]) || Double.isNaN(beta[sequence.numInstances()-1][s]))
 				throw new Exception("Beta for the final timestep is NaN");
 		}
@@ -487,25 +487,25 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		double scale = Math.exp(likelihoodFromScales(scales));
 		for (int i = 0; i < gamma.length; i++)
 		{
-			System.out.print("gamma {");
+			//System.out.print("gamma {");
 			for (int j = 0; j < gamma[i].length; j++)
 			{
 				gamma[i][j] = alpha[i][j]*beta[i][j];///scale;
-				System.out.print(gamma[i][j] + " ");
+				//System.out.print(gamma[i][j] + " ");
 			}
-			System.out.println("}");
-			System.out.print("alpha {");
-			for (int j = 0; j < alpha[i].length; j++)
-			{
-				System.out.print(alpha[i][j] + " ");
-			}
-			System.out.println("}");
-			System.out.print("beta {");
-			for (int j = 0; j < alpha[i].length; j++)
-			{
-				System.out.print(beta[i][j] + " ");
-			}
-			System.out.println("}");
+			//System.out.println("}");
+			//System.out.print("alpha {");
+			//for (int j = 0; j < alpha[i].length; j++)
+			//{
+			//	System.out.print(alpha[i][j] + " ");
+			//}
+			//System.out.println("}");
+			//System.out.print("beta {");
+			//for (int j = 0; j < alpha[i].length; j++)
+			//{
+			//	System.out.print(beta[i][j] + " ");
+			//}
+			//System.out.println("}");
 		}
 		return gamma;
 	}
