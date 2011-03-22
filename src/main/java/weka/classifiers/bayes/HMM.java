@@ -615,7 +615,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		Vector<Option> newVector = new Vector<Option>(4);
 		
 	    newVector.addElement(
-	              new Option("\tNumber of HMM states to use\n",
+	              new Option("\tStates: number of HMM states to use\n",
 	                         "S", 1,"-S"));
 
 	    newVector.addElement(
@@ -625,7 +625,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 
 	    newVector.addElement(
 	              new Option("\tCovariance Type: whether the covariances of gaussian\n"
-	                         +"\toutputs should be full matrices or limited to diagonal "
+	                         +"\toutputs should be full matrices or limited to diagonal\n"
 	                         +"\tor spherical matrices ",
 	                         "C", 1,"-C"));
 
@@ -640,7 +640,8 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 	                         "L", 1,"-L"));
 
 	    newVector.addElement(
-	              new Option("\tWhether the state transition probabilities are intialized randomly\n",
+	              new Option("\tRandom Initialisation: whether the state transition probabilities are intialized randomly\n"
+	                         +"\t(if this is false they are initialised by performing a k-means clustering on the data) ",
 	                         "R", 1,"-R"));
 
 	    

@@ -32,7 +32,7 @@ Description=A Package that supports Hidden Markov Model classification and model
 PackageURL=https://github.com/downloads/marcogillies/HMMWeka/HMM.zip
 
 # URL for further information
-URL=http://doc.gold.ac.uk/~mas02mg/
+URL=http://www.doc.gold.ac.uk/~mas02mg/software/hmmweka/index.html
 
 # Enhances various other packages ?
 #Enhances=packageName1,packageName2,...

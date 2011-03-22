@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>##project.name##</title>
+<meta name="description" content="a library for the programming environment processing" />
+<meta name="keywords" content="processing.org, library" />
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="ROBOTS" content="index,follow,archive" />
+<meta http-equiv="imagetoolbar" content="false" />
+<meta name="MSSmartTagsPreventParsing" content="true" />
+<meta name="author" content="##author##" />
+<meta name="Rating" content="General" />
+<meta name="revisit-after" content="7 Days" />
+<meta name="doc-class" content="Living Document" />
+<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+</head>
+<body>
+	<div id="container">
+	
+		<div id="header">
+			<h1>##project.name##</h1>
+		</div>
+		
+		<div id="menu" class="clear">
+			<ul>
+				<li><a href="#about">About</a> \ </li>
+				<li><a href="#download">Download</a> \ </li>
+				<li><a href="#download">Installation</a> \ </li>
+				<li><a href="#documentation">Documentation</a> \ </li>
+				<li><a href="./HMM/doc/index.html" target="_blank">Reference</a></li>
+				<!-- <li><a href="#demos">Demos</a> \ </li> -->				
+				<!-- <li><a href="#misc">Misc</a> \ </li> -->
+				<!-- <li><a href="#images">Images</a> \ </li> -->
+			</ul>
+		</div>
+		
+		<div id="content" class="clear">
+			
+			<div id="about">
+			<h2>##project.name##</h2>
+			<p>
+			A package by <a href="##author.url##">##author.name##</a> for the machine learning environment <a href="http://www.cs.waikato.ac.nz/ml/weka/" target="_blank">weka</a>. Last update, ##date##.
+			</p>
+			<p>
+			This library makes Hidden Markov Model machine learning available in Weka.
+			</p>
+			</div>
+			
+			
+			
+			<div id="download" class="clear">
+			<h2>Download</h2>
+			<p>
+			Download ##project.name## version ##project.version## in 
+			<a href="./##project.packagename##.zip">.zip format</a>.
+			</p>
+			<h2>Installation</h2>
+			<p>
+			This package may be installed using the weka package manager. From the main GUI Chooser select Tools->Package Manager. The package can be 
+			installed from the zip file by selecting File/URL at the top right of the package manager.
+			</p>
+			</div>	
+			
+			
+			<div id="resources">
+			<p><strong>Keywords</strong> ##project.keywords##</p>
+			<p><strong>Reference</strong>. Have a look at the javadoc reference <a href="./HMM/doc/index.html" target="_blank">here</a>. a copy of the reference is included in the .zip as well.</p>		
+			<p><strong>Source</strong>. The source code of ##project.name## is available at <a href="##source.url##">##source.host##</a>, and its repository can be browsed <a href="##source.repository##" target="_blank">here</a>.</p>			
+			</div>
+			
+			<div id="documentation" class="clear">
+			<h2>Documentation</h2>
+			<p>
+			This is a standard Weka classifier that can be used in all the standard weka tools (with the caveats listed below). 
+			See the <a href="http://www.cs.waikato.ac.nz/ml/weka/">Weka documentation</a> for more details of how to run weka. 
+			Full documentation on the API for this package can be found in the <a href="./HMM/doc/index.html" target="_blank">javadoc reference</a>
+			</p>
+			
+			<p>
+			There are plenty of good resources on Hidden Markov Models, so I won't attempt to repeat the theory. Here are a selection of the 
+			resources I have personally found useful when implementing HMMs.
+			<ul>
+			<li><a href="http://research.microsoft.com/en-us/um/people/cmbishop/PRML/index.htm">Pattern Recognition and Machine Learning by Chris Bishop</a> I largely based by implementation on the discussion in this book</li>
+			<li><a href="http://www.cs.ubc.ca/~murphyk/Bayes/rabiner.pdf">The hidden markov model tutorial by Lawrence Rabiner</a> This is still the definitive text</li>
+			<li>Kevin Murphy maintains <a href="http://www.cs.ubc.ca/~murphyk/Software/HMM/hmm.html">an excellent set of links on HMMs</a> and I would particularly recommend this <a href="http://www.cs.ubc.ca/~murphyk/Thesis/thesis.html">PhD Thesis</a> which has an excellent summary of learning algorithms in the appendix</li>
+			</ul>
+			</p>
+			
+			<p>
+			The HMM classifiers only work on sequence data, which in Weka is represented as a <a href="http://weka.wikispaces.com/Multi-instance+classification">relational attribute</a>.
+			Data instances must have a single, Nominal, class attribute and a single, relational, sequence attribute. 
+			The instances in this relational attibute may either consist of single, nominal data instances (in the case of discrete HMMs) 
+			or multivariate, numeric attributes (in the case of gaussian HMMs). 
+			</p>
+			
+			<p>The Hidden Markov Model classifier accepts the following options
+			<ul>
+			<li><strong>States: -S</strong> number of HMM states to use</li>
+			<li><strong>Iteration Cutoff: -I</strong> the proportional minimum change of likelihood at which to stop the EM iteractions</li>
+			<li><strong>Covariance Type: -C</strong> whether the covariances of gaussian outputs should be full matrices or limited to diagonal or spherical matrices</li>
+			<li><strong>Tied Covariance: -D</strong> whether the covariances of gaussian outputs are tied to be the same across all outputs</li>
+			<li><strong>Left Right: -L</strong> whether the state transitions are constrained to go only to the next state in numerical order</li>
+			<li><strong>Random Initialisation: -R</strong> whether the state transition probabilities are intialized randomly (if this is false they are initialised by performing a k-means clustering on the data)</li>
+			</ul>
+			</p>
+			
+			</div>
+			
+			
+			<div id="info">
+			<h2>Tested</h2>
+			<p>
+			<!-- on which platform has the library been tested? -->
+			<strong>Platform</strong> ##tested.platform##
+			
+			<!-- which processing version did you use for testing your library? -->
+			<br /><strong>Weka</strong> ##tested.wekaversion##
+			
+			<!-- does your library depend on any other library or framework? -->
+			<br /><strong>Dependencies</strong> ##project.dependencies##
+			</p>
+			</div>
+		
+			
+			<!-- use the demos section for a list of applets run in a browser. -->
+			<!--
+			<div id="demos" class="clear">
+				<h2>demos</h2>
+				<p>
+				find a list of online applet demos below.
+				
+				<ul>
+					<li><a href="./applets/demo/index.html">demo</a></li>
+				</ul>
+				</p>
+			</div>
+			-->
+			
+			<!-- use the misc section for other relevant information. Activate the link to the misc section in the menu above. -->
+			<!--
+			<div id="misc" class="clear">
+				<p></p>
+			</div>
+			-->
+			
+			<!-- use the images/screenshots section. Activate the link to the misc section in the menu above. -->
+			<!--
+			<div id="images" class="clear">
+			</div>
+			-->
+			
+			
+			<br class="clear" />
+		</div>
+		
+		<div id="footer">
+			<p>by ##author.name##, ##project.copyright##.</p>
+		</div>
+	</div>
+</body>
+</html>
