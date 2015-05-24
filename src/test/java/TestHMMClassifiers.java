@@ -272,12 +272,12 @@ public class TestHMMClassifiers {
 		outputProbs[0][3][3] = 1.0;
 		outputProbs[0][4][4] = 1.0;
 		outputProbs[0][5][5] = 1.0;
-		outputProbs[1][0][0] = 1.0;
-		outputProbs[1][1][1] = 1.0;
-		outputProbs[1][2][2] = 1.0;
-		outputProbs[1][3][3] = 1.0;
-		outputProbs[1][4][4] = 1.0;
-		outputProbs[1][5][5] = 1.0;
+		outputProbs[1][0][5] = 1.0;
+		outputProbs[1][1][4] = 1.0;
+		outputProbs[1][2][3] = 1.0;
+		outputProbs[1][3][2] = 1.0;
+		outputProbs[1][4][1] = 1.0;
+		outputProbs[1][5][0] = 1.0;
 		
 		hmm.initEstimatorsUnivariateDiscrete(2, state0Probs, stateProbs, outputProbs);	
 
@@ -337,16 +337,16 @@ public class TestHMMClassifiers {
 		hmm.setOutputDimension(4);
 		
 		double state0Probs[][] = new double[2][2];
-		state0Probs[0][0] = 0.5;
-		state0Probs[0][1] = 0.5;
-		state0Probs[1][0] = 0.5;
-		state0Probs[1][1] = 0.5;
+		state0Probs[0][0] = 1;
+		state0Probs[0][1] = 0;
+		state0Probs[1][0] = 1;
+		state0Probs[1][1] = 0;
 		
 		double stateProbs[][][] = new double[2][2][2];
-		stateProbs[0][0][0] = 0.8;
-		stateProbs[0][0][1] = 0.2;
-		stateProbs[0][1][0] = 0.2;
-		stateProbs[0][1][1] = 0.8;
+		stateProbs[0][0][0] = 0.5;
+		stateProbs[0][0][1] = 0.5;
+		stateProbs[0][1][0] = 0.5;
+		stateProbs[0][1][1] = 0.5;
 		stateProbs[1][0][0] = 0.9;
 		stateProbs[1][0][1] = 0.1;
 		stateProbs[1][1][0] = 0.1;
@@ -727,7 +727,7 @@ public class TestHMMClassifiers {
 		if(printErrorRates)
 			System.out.println("Test Seq 3_1 error rate " + errorRate);
 		// quite a high error rate as the models are similar
-		assertTrue(errorRate < 0.4);
+		assertTrue("error rate " + errorRate, errorRate < 0.4);
 		
 		eval.evaluateModel(hmm, test1);
 		errorRate = eval.errorRate();
@@ -735,7 +735,7 @@ public class TestHMMClassifiers {
 			System.out.println("Test Seq 3_1 error rate " + errorRate);
 		// quite a high error rate as the models are similar
 		//System.out.println(errorRate);
-		assertTrue(errorRate < 0.4);
+		assertTrue("error rate " + errorRate, errorRate < 0.4);
 
 	}
 
@@ -764,7 +764,7 @@ public class TestHMMClassifiers {
 			System.out.println("Test Seq 3_2 error rate " + errorRate);
 		// quite a high error rate as the models are similar
 		//System.out.println(errorRate);
-		assertTrue(errorRate < 0.25);
+		assertTrue("error rate " + errorRate, errorRate < 0.25);
 		
 		eval.evaluateModel(hmm, test1);
 		errorRate = eval.errorRate();
@@ -772,7 +772,7 @@ public class TestHMMClassifiers {
 			System.out.println("Test Seq 3_2 error rate " + errorRate);
 		// quite a high error rate as the models are similar
 		//System.out.println(errorRate);
-		assertTrue(errorRate < 0.25);
+		assertTrue("error rate " + errorRate, errorRate < 0.25);
 	}
 	
 	@Test
@@ -830,7 +830,7 @@ public class TestHMMClassifiers {
 		if(printErrorRates)
 			System.out.println("Test Seq 3_1 error rate " + errorRate);
 		// quite a high error rate as the models are similar
-		assertTrue(errorRate < 0.4);
+		assertTrue("error rate " + errorRate, errorRate < 0.4);
 		
 		eval.evaluateModel(hmm, test1);
 		errorRate = eval.errorRate();
@@ -838,7 +838,7 @@ public class TestHMMClassifiers {
 			System.out.println("Test Seq 3_1 error rate " + errorRate);
 		// quite a high error rate as the models are similar
 		//System.out.println(errorRate);
-		assertTrue(errorRate < 0.4);
+		assertTrue("error rate " + errorRate, errorRate < 0.4);
 
 	}
 
@@ -863,10 +863,10 @@ public class TestHMMClassifiers {
 		state0Probs[1][1] = 0.5;
 		
 		double stateProbs[][][] = new double[2][2][2];
-		stateProbs[0][0][0] = 0.85;
-		stateProbs[0][0][1] = 0.15;
-		stateProbs[0][1][0] = 0.85;
-		stateProbs[0][1][1] = 0.15;
+		stateProbs[0][0][0] = 0.6;
+		stateProbs[0][0][1] = 0.4;
+		stateProbs[0][1][0] = 0.6;
+		stateProbs[0][1][1] = 0.4;
 		stateProbs[1][0][0] = 0.95;
 		stateProbs[1][0][1] = 0.05;
 		stateProbs[1][1][0] = 0.05;
@@ -967,7 +967,7 @@ public class TestHMMClassifiers {
 			System.out.println("Test MV Seq 2_2 error rate " + errorRate);
 		assertTrue(errorRate < 0.1);
 	}
-
+	
 	@Test
 	public void TestMVSequence2_3() throws Exception
 	{
@@ -982,22 +982,22 @@ public class TestHMMClassifiers {
 		hmm.setOutputDimension(4);
 		
 		double state0Probs[][] = new double[2][2];
-		state0Probs[0][0] = 0.5;
-		state0Probs[0][1] = 0.5;
-		state0Probs[1][0] = 0.5;
-		state0Probs[1][1] = 0.5;
+		state0Probs[0][0] = 1;
+		state0Probs[0][1] = 0;
+		state0Probs[1][0] = 1;
+		state0Probs[1][1] = 0;
 		
 		double stateProbs[][][] = new double[2][2][2];
-		stateProbs[0][0][0] = 0.85;
-		stateProbs[0][0][1] = 0.15;
-		stateProbs[0][1][0] = 0.85;
-		stateProbs[0][1][1] = 0.15;
-		stateProbs[1][0][0] = 0.95;
-		stateProbs[1][0][1] = 0.05;
-		stateProbs[1][1][0] = 0.05;
-		stateProbs[1][1][1] = 0.95;
+		stateProbs[0][0][0] = 0.5;
+		stateProbs[0][0][1] = 0.5;
+		stateProbs[0][1][0] = 0.5;
+		stateProbs[0][1][1] = 0.5;
+		stateProbs[1][0][0] = 0.9;
+		stateProbs[1][0][1] = 0.1;
+		stateProbs[1][1][0] = 0.1;
+		stateProbs[1][1][1] = 0.9;
 		
-		hmm.initEstimatorsMultivariateNormal(2, state0Probs, stateProbs, null, null, null);	
+		hmm.initEstimatorsMultivariateNormal(2, state0Probs, stateProbs, null, null, train);	
 
 		
 		//hmm.initEstimatorsUnivariateDiscrete(2, null, null, outputProbs);
@@ -1024,19 +1024,19 @@ public class TestHMMClassifiers {
 		double errorRate = eval.errorRate();
 		if(printErrorRates)
 			System.out.println("Test MV Seq 2_3 error rate " + errorRate);
-		assertTrue(errorRate < 0.1);
+		assertTrue("error rate " + errorRate, errorRate < 0.1);
 		
 		eval.evaluateModel(hmm, test1);
 		errorRate = eval.errorRate();
 		if(printErrorRates)
 			System.out.println("Test MV Seq 2_3 error rate " + errorRate);
-		assertTrue(errorRate < 0.1);
+		assertTrue("error rate " + errorRate, errorRate < 0.1);
 		
 		//eval.evaluateModel(hmm, test2);
 		//errorRate = eval.errorRate();
 		//assertTrue(errorRate < 0.01);
 	}
-
+	
 	
 	@Test
 	public void TestMVSequence2_4() throws Exception

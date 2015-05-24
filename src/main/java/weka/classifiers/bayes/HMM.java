@@ -758,6 +758,8 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			}
 		}
 		
+		
+		
 		int numS0 = 0;
 		int numS1 = 0;
 		for (int i = 0; i < data.numInstances(); i++)
@@ -1043,6 +1045,32 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		for (int i = 0; i < numClasses; i++)
 			ests[i] = new MultivariateNormalEstimator();
 		
+		m_SeqAttr = -1;
+		m_NumOutputs = 0;
+		for(int i = 0; i < data.numAttributes(); i++)
+		{
+			Attribute attr = data.attribute(i);
+			if(attr.isRelationValued())
+			{
+				if(attr.relation().attribute(0).isNominal())
+				{
+					m_SeqAttr = attr.index();
+					assert(m_SeqAttr == i);
+					//m_NumOutputs  = attr.relation().numDistinctValues(0);
+				}
+				if(attr.relation().attribute(0).isNumeric())
+				{
+					m_SeqAttr = attr.index();
+					assert(m_SeqAttr == i);
+					this.setNumeric(true);
+					//m_NumOutputs  = -1;
+					//m_OutputDimension = attr.relation().numAttributes();
+					//break;
+				}
+				break;
+			}
+		}
+		
 		for (int i = 0; i < data.numInstances(); i++)
 		{
 			Instance inst = data.instance(i);
@@ -1088,6 +1116,31 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 	protected void initGaussianOutputProbsCluster(int numClasses, Instances data, DoubleVector outputMeans[][], Matrix outputVars[][]) throws Exception
 	{
 		
+		m_SeqAttr = -1;
+		m_NumOutputs = 0;
+		for(int i = 0; i < data.numAttributes(); i++)
+		{
+			Attribute attr = data.attribute(i);
+			if(attr.isRelationValued())
+			{
+				if(attr.relation().attribute(0).isNominal())
+				{
+					m_SeqAttr = attr.index();
+					assert(m_SeqAttr == i);
+					//m_NumOutputs  = attr.relation().numDistinctValues(0);
+				}
+				if(attr.relation().attribute(0).isNumeric())
+				{
+					m_SeqAttr = attr.index();
+					assert(m_SeqAttr == i);
+					//this.setNumeric(true);
+					//m_NumOutputs  = -1;
+					//m_OutputDimension = attr.relation().numAttributes();
+					//break;
+				}
+				break;
+			}
+		}
 			
 		Instances [] flatdata = new Instances[numClasses];
 		for (int i = 0; i < data.numInstances(); i++)
@@ -1122,11 +1175,11 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 			kmeans[i].setNumClusters(getNumStates());
 			kmeans[i].setDisplayStdDevs(true);
 			kmeans[i].buildClusterer(flatdata[i]);
-			System.out.print("Kmeans cluster " + i + " sizes ");
-			int [] clusterSizes = kmeans[i].getClusterSizes();
-			for (int j = 0; j < clusterSizes.length; j++)
-				System.out.print(clusterSizes[j] + " ");
-			System.out.println("");
+			//System.out.print("Kmeans cluster " + i + " sizes ");
+			//int [] clusterSizes = kmeans[i].getClusterSizes();
+			//for (int j = 0; j < clusterSizes.length; j++)
+			//	System.out.print(clusterSizes[j] + " ");
+			//System.out.println("");
 		}
 		
 		

@@ -35,6 +35,7 @@
   <property name="source.url" value="https://github.com/marcogillies/HMMWeka" />
   <property name="source.repository" value="https://github.com/marcogillies/HMMWeka" />
 	
+  
 
   <target name="init_all">
     <!-- Create the time stamp -->
@@ -130,6 +131,7 @@
     <mkdir dir="${src-test}"/>
   </target>
 
+	
   <!-- compile the testcases -->
   <target name="compile_tests" depends="init_tests, compile" 
    description="Compile unit tests into build/testcases">
@@ -158,6 +160,39 @@
     <jar jarfile="${dist}/${package}-tests.jar" 
       basedir="${build}/testcases">
     </jar>
+  </target>
+	
+  <target name="run_tests" depends="jar_tests" 
+	description="runs the junit tests">
+  	<junit printsummary="yes" haltonfailure="yes">
+  	    <classpath>
+  	    	<fileset dir="${lib}">
+		      <include name="*.jar"/>
+		      <include name="*.zip"/>
+		    </fileset>
+		    <pathelement location="${build}/classes"/>
+		    <pathelement location="${build}/testcases"/>
+		    <pathelement path="${java.class.path}" />
+  	    </classpath>
+  		
+  		
+	  	<test name="weka.estimators.TestDiscreteHMMEstimator"
+	  	             haltonfailure="no" outfile="TestDiscreteHMMEstimator.result">
+	  		<formatter type="plain"/>
+	  	</test>
+	  	<test name="weka.classifiers.bayes.TestHMMClassifiers"
+	  	             haltonfailure="no" outfile="TestHMMClassifiers.result">
+	  		<formatter type="plain"/>
+	  	</test>
+	  	<test name="weka.estimators.TestMultivariateNormalEstimator"
+	  	             haltonfailure="no" outfile="TestMultivariateNormalEstimator.result">
+	  		<formatter type="plain"/>
+	  	</test>
+	  	<!--test name="weka.estimators.TestMultivariateNormalHMMEstimator"
+	  	             haltonfailure="no" outfile="TestMultivariateNormalHMMEstimator.result">
+	  		<formatter type="plain"/>
+	  	</test-->
+  	</junit>
   </target>
 
 <!--
