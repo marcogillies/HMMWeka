@@ -154,19 +154,24 @@ public class MultivariateNormalEstimator implements Serializable {
 		    	  throw new Exception("Unhandled covariance type");
 		      }
 		      
-			  m_DetVar = m_Var.det();
-			  if (m_DetVar < 1.0E-200)
-			  {
-				//System.out.println(this);
-				  //throw new Exception("Covariance matrix has zero determinant");
-				  System.err.println("Covariance matrix has zero determinant");
-				  return;
-			  }
-		      m_InvVar = m_Var.inverse();
-			  m_CholeskyL = m_Var.chol().getL();
+		      calculateDerivedParameters();
 			  
 		}
  
+	}
+	
+	public void calculateDerivedParameters()  throws Exception
+	{
+		 m_DetVar = m_Var.det();
+		  if (m_DetVar < 1.0E-200)
+		  {
+			//System.out.println(this);
+			  //throw new Exception("Covariance matrix has zero determinant");
+			  System.err.println("Covariance matrix has zero determinant");
+			  return;
+		  }
+	      m_InvVar = m_Var.inverse();
+		  m_CholeskyL = m_Var.chol().getL();
 	}
 	
 	public static void calculateTiedParameters(MultivariateNormalEstimator ests[]) throws Exception
@@ -185,6 +190,7 @@ public class MultivariateNormalEstimator implements Serializable {
 		for(int i = 0; i < ests.length; i++)
 		{
 			ests[i].m_Var = Sigma.copy();
+			ests[i].calculateDerivedParameters();
 		}
 	}
 	
