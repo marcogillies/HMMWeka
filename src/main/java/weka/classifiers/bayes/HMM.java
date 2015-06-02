@@ -1209,7 +1209,8 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 					Matrix sigma = new Matrix(n,n, 0.0);
 					for(int a = 0; a < n; a++)
 					{
-						double s = clusterCentroids.instance(j).value(a);
+						//double s = clusterCentroids.instance(j).value(a);
+						double s = clusterStdDevs.instance(j).value(a);
 						sigma.set(a, a, s*s);
 					}
 					est.setOutputVariance(j,sigma);
@@ -1222,7 +1223,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		}
 	}
 	
-	protected void initEstimatorsUnivariateDiscrete(int numClasses, double state0Probs[][], double stateProbs[][][], double outputProbs[][][]) throws Exception
+	public void initEstimatorsUnivariateDiscrete(int numClasses, double state0Probs[][], double stateProbs[][][], double outputProbs[][][]) throws Exception
 	{
 		estimators = new HMMEstimator[numClasses];
 		
@@ -1281,7 +1282,7 @@ public class HMM extends weka.classifiers.RandomizableClassifier implements weka
 		*/
 	}
 	
-	protected void initEstimatorsMultivariateNormal(int numClasses, double state0Probs[][], double stateProbs[][][], DoubleVector outputMeans[][], Matrix outputVars[][], Instances data) throws Exception
+	public void initEstimatorsMultivariateNormal(int numClasses, double state0Probs[][], double stateProbs[][][], DoubleVector outputMeans[][], Matrix outputVars[][], Instances data) throws Exception
 	{
 		estimators = new HMMEstimator[numClasses];
 		
